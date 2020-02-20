@@ -1,19 +1,34 @@
 package com.educandoweb.curso.resources;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.educandoweb.curso.entities.Usuario;
+import com.educandoweb.curso.service.ServicosDoUsuario;
 
 @RestController
 @RequestMapping(value = "/usuarios")
 public class RecursosUsuarios {
 	
+	@Autowired
+	private ServicosDoUsuario servicosDoUsuario;
+	
 	@GetMapping
-	public ResponseEntity<Usuario> consulta(){
-		Usuario u = new Usuario(1L, "Felipe", "felipe@gmail.com", "999999999", "12345");
-		return ResponseEntity.ok().body(u);
+	public ResponseEntity<List<Usuario>> listarTudo(){
+		List<Usuario> list = servicosDoUsuario.listarTudo();
+		return ResponseEntity.ok().body(list);
 	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Usuario> consultaId(@PathVariable Long id){
+		Usuario usuario = servicosDoUsuario.consultaId(id);
+		return ResponseEntity.ok().body(usuario);
+	}
+	
 }
