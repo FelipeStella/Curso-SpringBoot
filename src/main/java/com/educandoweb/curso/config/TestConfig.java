@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.educandoweb.curso.entities.Categoria;
+import com.educandoweb.curso.entities.ItemDoPedido;
 import com.educandoweb.curso.entities.Pedido;
 import com.educandoweb.curso.entities.Produto;
 import com.educandoweb.curso.entities.Usuario;
 import com.educandoweb.curso.enuns.StatusDoPedido;
 import com.educandoweb.curso.repository.RepositorioDeCategoria;
+import com.educandoweb.curso.repository.RepositorioDeItensDoPedido;
 import com.educandoweb.curso.repository.RepositorioDePedido;
 import com.educandoweb.curso.repository.RepositorioDeProduto;
 import com.educandoweb.curso.repository.RepositorioDeUsuario;
@@ -33,6 +35,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private RepositorioDeProduto repositorioDeProduto;
+	
+	@Autowired
+	private RepositorioDeItensDoPedido repositorioDeItensDoPedido;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -67,6 +72,13 @@ public class TestConfig implements CommandLineRunner {
 		p5.getCategorias().add(cat2);
 		
 		repositorioDeProduto.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		ItemDoPedido oi1 = new ItemDoPedido(o1, p1, 2, p1.getPreco());
+		ItemDoPedido oi2 = new ItemDoPedido(o1, p3, 1, p3.getPreco());
+		ItemDoPedido oi3 = new ItemDoPedido(o2, p3, 2, p3.getPreco());
+		ItemDoPedido oi4 = new ItemDoPedido(o3, p5, 2, p5.getPreco());
+		
+		repositorioDeItensDoPedido.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 		
 	}
 	
