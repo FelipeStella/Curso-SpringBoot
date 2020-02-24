@@ -23,5 +23,25 @@ public class ServicosDoUsuario {
 		Optional<Usuario> obj = repositorioDeUsuario.findById(id);
 		return obj.get();
 	}
+	
+	public Usuario inserir(Usuario usuario) {
+		return repositorioDeUsuario.save(usuario);
+	}
+	
+	public void deletar(Long id) {
+		repositorioDeUsuario.deleteById(id);
+	}
+	
+	public Usuario atualizar(Long id, Usuario obj) {
+		Usuario entidade = repositorioDeUsuario.getOne(id);
+		atualizarDados(entidade, obj);
+		return repositorioDeUsuario.save(entidade);
+	}
+	
+	public void atualizarDados(Usuario entidade, Usuario obj) {
+		entidade.setNome(obj.getNome());
+		entidade.setEmail(obj.getEmail());
+		entidade.setTelefone(obj.getTelefone());
+	}
 
 }
