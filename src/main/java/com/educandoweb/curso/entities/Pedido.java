@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.educandoweb.curso.enuns.StatusDoPedido;
@@ -32,6 +34,9 @@ public class Pedido implements Serializable{
 	private Instant momento;
 	
 	private Integer statusDoPedido;
+	
+	@OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private Pagamento pagamento;
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -85,6 +90,14 @@ public class Pedido implements Serializable{
 		this.statusDoPedido = statusDoPedido.getCodigo();
 	}
 	
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
+
 	public Set<ItemDoPedido> getItens(){
 		return itens;
 	}
