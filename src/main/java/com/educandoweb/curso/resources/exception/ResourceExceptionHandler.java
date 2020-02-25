@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.educandoweb.curso.service.exception.DataIntegrityViolationException;
 import com.educandoweb.curso.service.exception.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -21,5 +22,15 @@ public class ResourceExceptionHandler {
 		StandardError erro = new StandardError(Instant.now(), status.value(), error, e.getMessage()
 				,requisicao.getRequestURI());
 		return ResponseEntity.status(status).body(erro);
-	}			
+	}	
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<StandardError> dataBase(DataIntegrityViolationException e, HttpServletRequest requisicao){
+		String error = "Erro de integridade com o banco de dados";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError erro = new StandardError(Instant.now(), status.value(), error, e.getMessage()
+				,requisicao.getRequestURI());
+		return ResponseEntity.status(status).body(erro);
+	}	
+	
 }
